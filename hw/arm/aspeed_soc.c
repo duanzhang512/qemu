@@ -305,6 +305,9 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
 
     /* UART - attach an 8250 to the IO space as our UART5 */
     if (serial_hd(0)) {
+        qemu_irq uart1 = aspeed_soc_get_irq(s, ASPEED_UART1);
+        serial_mm_init(get_system_memory(), sc->memmap[ASPEED_UART1], 2,
+                       uart1, 38400, serial_hd(0), DEVICE_LITTLE_ENDIAN);        
         qemu_irq uart5 = aspeed_soc_get_irq(s, ASPEED_UART5);
         serial_mm_init(get_system_memory(), sc->memmap[ASPEED_UART5], 2,
                        uart5, 38400, serial_hd(0), DEVICE_LITTLE_ENDIAN);
